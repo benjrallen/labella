@@ -1,0 +1,208 @@
+//
+// CSS for the specific theme photo gallery styles
+//
+
+/** Ease Photo Gallery **/
+#ease-gallery-data-el{
+	display: none;
+}
+
+#gallery-frame{
+	width: 51%;
+	@include float-left;
+	display: block;
+	
+	& .frame-tip{
+		//background: $base-color;
+		padding-left: 2%;
+		@include adjust-font-size-to( 10px );
+		color: lighten( $base-color, 25% );
+		//@include opacity( 0.5 );
+	}
+	
+	& img{
+		display: block;
+		width: 100%;
+		height: auto;
+		cursor: pointer;
+		cursor: hand;
+
+		max-width: 96%;
+		padding: 2%;
+		background: $base-bg;
+		
+		@include pie;
+		@include box-shadow( $base-color 0 0 15px -3px );
+	}
+}
+
+/** Ease Photo Gallery **/
+.ease-photo-gallery{
+	//text-align:center;
+	@include float-right;
+	display: block;
+	width: 46%;
+	
+	& .ease-img-link{
+		//margin:8px 16px;
+		//@include margin-leader( 0.25 );
+		@include margin-trailer( 0.5 );
+		margin-left: 0.25em;
+		margin-right: 0.25em;
+		@include inline-block;
+		vertical-align: middle;
+		//background: $base-bg url('../images/loading.gif') no-repeat center center;
+		background: $base-bg;
+		padding: 2px;
+		
+		//@include pie;
+		//@include border-radius( 3px );
+		//@include single-box-shadow( darken( $base-bg, 20% ), 0, 0, 4px );
+		
+		min-width: 40px;
+		//min-height: 30px;
+		
+		max-width: 60px;
+		
+		
+		@include pie;
+		@include box-shadow( $base-color 0px 3px 6px -1px );
+		
+		& img{
+			max-width: 100%;
+			width: auto !important;
+			height: auto !important;
+			//height: auto;
+			display: block;
+		}
+	}
+	
+	& .gallery-page-controls{
+		& .pageNext, & .pagePrev{
+			display: inline-block;
+			//background: $base-header-color;
+			@include adjust-font-size-to( 10px );
+			padding-left: 0.5em;
+			padding-right: 0.5em;
+			cursor: pointer;
+			cursor: hand;
+
+			@include theme-hard-grad-button;
+			@include theme-hard-grad-button-hover;
+
+			
+			//&:hover, &:active{
+			//	@include opacity( $base-hover-opacity );
+			//}
+		}
+		& .pageNext{
+			float: right;
+			margin-right: 1em;
+		}
+		& .pagePrev{
+			float: left;
+			margin-left: 1em;
+		}
+		& .pageCounter{
+			//@include padding-leader(0.5);
+			@include adjust-font-size-to( 10px );
+			@include padding-leader( 0.125 );
+			text-align: center;
+			display: block;
+		}
+	}
+	
+	
+}
+/** End Ease Photo Gallery **/
+
+/** Custom Lightbox **/
+#easePopup{
+	z-index:1001;
+	display:inline-block;
+	position:absolute;
+	border:5px solid $box-bg;
+	background: $box-bg;
+	@include adjust-font-size-to( 16px );
+	@include single-box-shadow( darken( $box-bg, 70% ), 0, 4px, 20px, 0px );
+	
+	
+	& img{
+		margin: 0;
+		display:block;
+	}
+	
+	& #pNext, & #pPrev, & #pClose{
+		display:inline-block;
+		cursor:hand;
+		cursor:pointer;
+		z-index:2;
+		position:absolute !important;
+	}
+	
+	& #pNext, & #pPrev{
+		font-variant:small-caps;
+		@include adjust-font-size-to( 14px, 1.5 );
+		padding-left: 0.75em;
+		padding-right: 0.75em;
+		
+		top:50%;
+		color:#fff;
+	}
+	
+	& #pNext{
+		background: $base-header-color;
+		right: 0;
+		
+		&:hover{ background: lighten( $base-header-color, 15% ) }
+	}
+	
+	& #pPrev{
+		background: $base-button-color;
+		left: 0;
+		&:hover{ background: lighten( $base-button-color, 15% ) }
+	}
+	
+	& #pClose{
+		background: $box-bg;
+		border:3px solid $base-button-color;
+		color: $base-button-color;
+		text-align:center;
+		line-height:18px;
+		height:20px;
+		font-size:14px;
+		width:20px;
+		top:-15px;
+		right:-15px;
+	
+		//@include pie;
+		//@include border-radius( 20px );
+		
+		&:hover{
+			background: darken( $box-bg, 15% );
+		}
+	}
+	
+	& #pDesc, #pTitle{
+		position: absolute !important;
+		left: 0;
+		background: rgba( 0,0,0, 0.5 );
+		color: #fff;
+		@include pie;
+		
+		//@include adjust-font-size-to( 14px );
+		@include padding-leader( 0.25 );
+		@include padding-trailer( 0.25 );
+		padding-left: 0.5em;
+		padding-right: 0.5em;
+		z-index: 1;
+	}
+	& #pDesc{
+		bottom: 0;
+	}
+	& #pTitle{
+		top: 0;
+	}
+}
+
+/** End Custom Lightbox **/

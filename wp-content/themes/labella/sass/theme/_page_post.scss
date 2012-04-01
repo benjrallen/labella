@@ -1,0 +1,173 @@
+//
+// CSS for the specific theme page / post styles
+//
+
+
+/** Default Page Template **/
+article.hentry{
+	
+	padding-left: 2 * $base-pad;
+	padding-right: 2 * $base-pad;
+	
+	@include padding-leader(1);
+	@include padding-trailer(1);
+	
+	& p{
+		@include adjust-font-size-to( 13px );
+		@include margin-leader(0.75);
+	}
+	
+	& .subtitle{
+		//font-weight: normal;
+	}
+	
+	& .call_header{
+		@include adjust-font-size-to(24px);
+		@include margin-trailer(0.5);
+	}
+	
+	& .list_header{
+		@include adjust-font-size-to(18px);
+		@include margin-trailer( 0.25 );
+	}
+	
+	& ul.list_body{
+		@include adjust-font-size-to(15px, 1.5);
+		margin-left: 0;
+		list-style-position: inside;
+	}
+	
+	& a.base_button{
+		@include base-button( $base-button-color );
+		@include adjust-font-size-to( 14px );
+		font-weight: 600;
+		text-transform: none;
+		text-align: center;
+		@include text-shadow( $base-color -1px 1px 1px );
+		color: $base-bg;
+		
+		@include padding-leader( 0.125 );
+		@include padding-trailer( 0.25 );
+		
+		@include box-shadow( $base-color 0 6px 6px -3px );
+	}
+	
+	& a.call_button{
+		display: block;
+		@include adjust-font-size-to( 15px, 1.25 );
+		
+		@include padding-leader( 0.75 );
+		@include padding-trailer( 0.75 );
+		@include margin-trailer(0.75);
+		
+		@include border-radius( floor( $base-radius * 4 ) );
+		
+		& span{
+			display: block;
+			
+			&.text{
+				@include adjust-font-size-to( 40px, 2 );
+			}
+			&.number{
+				@include adjust-font-size-to( 28px, 2 );
+			}
+		}
+	}
+	
+	& .half, & .third{
+		@include inline-block;
+		vertical-align: top;
+		background: $base-bg;
+
+		&.first{						
+			& .in{
+				padding-right: 2 * $base-pad;
+			}
+		}
+		&.last{
+			& .in{
+				padding-left: 2 * $base-pad;
+			}
+		}
+
+	}
+	
+	& .half{
+		width: 49.5%;
+		
+		&.first{
+			border-right: 1px solid $base-grey;						
+			& .in{
+			}
+		}
+		&.last{
+			& .in{
+			}
+		}
+	}
+	
+	& .third{
+		width: 32.5%;
+		
+		&.first{						
+			border-right: 1px solid $base-grey;
+			& .in{
+			}
+		}
+		&.last{
+			width: 65.5%;
+			//border-left: 1px solid $base-grey;
+			
+			& .in{
+			}
+		}
+
+		& a.call_button{
+			
+			@include margin-trailer(0);
+			
+			& span{
+				&.text{
+					@include adjust-font-size-to( 22px, 1.5 );
+				}
+				&.number{
+					@include adjust-font-size-to( 20px, 1.5 );
+				}
+			}
+		}
+
+
+	}
+	
+	& .entry-content{
+		@include margin-trailer(0.75);
+		
+	}
+	
+	& .buttons{
+		text-align: center;
+		
+		& a{
+			@include inline-block;
+			margin-right: 1.25em;
+			@include adjust-font-size-to( 17px, 1.25 );
+			@include padding-leader( 0.25 );
+			@include padding-trailer( 0.4 );
+		}
+		
+	}
+}
+
+.more-link{
+	@include float-right;
+	@include margin-leader(0.5);
+	@include margin-trailer;
+}
+
+/** End Default Page Template **/
+
+
+/** 404 Page Template **/
+a.home-link{ display:block; @include float-right; color: $base-color; }
+/** End 404 Page Template **/
+

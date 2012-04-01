@@ -1,0 +1,113 @@
+// Here's where we define some default constants
+@import "partials/base";
+
+//look in base for other variables
+$inner-content-padding: 20px;
+
+body{
+	height:100%;
+	width:100%;
+	display:block;
+	background: $base-bg;
+	@include open-sans; //font stack
+	color:$base-color;
+
+	min-width: $base-width;
+
+	//position:relative;	
+	//@include min-height( 2000px );
+}
+
+h1, h2, h3, h4, h5, h6{
+	@include prata;
+}
+
+h1{ @include adjust-font-size-to( 20px ); }
+h2{ @include adjust-font-size-to( 18px, 1.25 ); }
+h3{ @include adjust-font-size-to( 14px, 1.25 ); }
+h4{ @include adjust-font-size-to( 12px, 1.25 ); }
+//h5{ @include adjust-font-size-to( 10px, 1.25 ); }
+//h6{ @include adjust-font-size-to( 8px, 1.25 ); }
+
+
+a{
+}
+
+b,strong{
+}
+
+p{
+}
+
+input, textarea{
+	
+	&:focus{
+	}
+}
+
+
+/* Parts */
+
+$sidebar-width: 180px;
+
+@import "theme/header";
+	//@import "theme/banner_bars";
+@import "theme/top_nav";
+@import "theme/body";
+@import "theme/front_page";
+@import "theme/sidebar";
+@import "theme/rotator";
+	//@import "theme/footer_nav";
+@import "theme/footer";
+@import "theme/page_post";
+	@import "theme/page_contact_us";
+	@import "theme/contact_form";
+	//@import "theme/mailchimp_subscribe";
+	@import "theme/photo_gallery";
+
+
+/* End Parts */
+
+
+.wrap{
+	width:$base-width;
+	margin:0 auto;
+	//padding-left: 1.5em;
+	//padding-right: 1.5em;
+}
+
+
+.clearfix{
+	@include pie-clearfix;
+}
+.alignleft{
+	@include float-left;
+	margin-right: 1em;
+}
+.alignright{
+	@include float-right;
+	margin-left: 1em;
+}
+.alignnone{}
+.aligncenter{
+	display:block;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+
+$mobile-menu-height: 4em;
+$mobile-menu-color: #E7E9EF;
+
+/* --- less than main size --- */
+@media screen and (max-width: 979px) {
+}
+
+/* --- iPad Portrait --- */
+@media screen and (max-width: 880px) {
+}
+
+/* --- Smartphones and small Tablet PCs --- */
+@media screen and (max-width : 620px) {
+
+}

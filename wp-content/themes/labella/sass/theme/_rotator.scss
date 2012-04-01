@@ -1,0 +1,204 @@
+//
+// CSS for the specific theme rotator
+//
+
+/** Rotator **/
+
+@mixin description-grad{
+	background: rgba(0,0,0,0.4);
+
+	@include background(
+		linear-gradient(
+			left,
+			rgba(0,0,0,0.4) 80%,
+			rgba(0,0,0,0.0) 100%
+		)
+	);
+
+	@include pie;
+	-pie-background: rgba(0,0,0,0.4); 
+}
+
+$rH: 359px;  //img height
+$rW: 922px;  //img width
+$pV: 8px; //vertical img padd
+$pH: 8px; //horizontal img padd
+$bW: 1px; //border width
+
+#rotator{
+	display:block;
+	width: $rW + ($pH + $bW) * 2;
+	height: $rH + ($pV + $bW) * 2;
+	margin-left: auto;
+	margin-right: auto;
+	@include margin-leader(1);
+	
+	@include base-shadow();
+	
+	@include pie;
+	@include border-radius( $base-radius );
+	
+	border: $bW solid $base-grey;
+	
+	background: $base-bg;
+	
+	position:relative;
+
+	padding: $pV $pH;
+
+		
+	//@include float-left;
+		
+	& .slides{
+		display:inline-block;
+		width: $rW + $pH * 2;
+		height: $rH + $pV * 2;
+		//padding: 3px 5px;
+		overflow:hidden;
+		position:relative;
+		//@include float-left;
+
+		border: $bW solid $base-grey;
+
+		z-index: 1;
+		
+		
+		
+		& .slide{
+			display:block;
+			width: $rW + $bW * 2;
+			height: $rH;
+			padding: $pV $pH;
+			background: $base-bg;
+			
+			position:absolute;
+			z-index:1;
+			
+			//@include box-shadow(
+			//	$base-color 0 0 12px -6px inset				
+			//);
+			//@include pie;
+			
+			& h1, & h2{
+				position: absolute;
+				bottom: $pV;
+				left: 0;
+				color: $base-bg;
+				z-index: 5;
+				margin-left: $pH;
+				margin-right: $pH;
+				padding-left: 0.5em;
+				padding-right: 0.5em;
+
+				@include rgba-background-inline( rgba(51,51,51,0.4) );
+				@include text-shadow( $base-color -1px 1px 1px ); 
+				
+				@include adjust-font-size-to( 46px );
+				@include padding-leader( 0.125 );
+				@include padding-trailer( 0.125 );
+			}
+			
+			
+			& img{
+				@include pie;
+				@include box-shadow(
+					$base-color 0 0 12px -3px
+				);
+				display:block;
+				position:absolute;
+				z-index: 3;
+				//bottom: 5px;
+				//left: 5px;
+			}
+			
+			& .description{
+				display: none;
+				
+				//@include description-grad;
+				//color: lighten( $base-color, 70% );
+				//display:block;
+				//position:absolute;
+				//bottom: 0;
+				//left: 0;
+				//padding: 6px 12px;
+				//width: 66%;
+				//@include adjust-font-size-to( 14px );
+						
+				//& span{
+				//	//width: 50%;
+				//	@include single-text-shadow( darken( $base-bg, 75% ), -1px, 1px, 1px );
+				//}
+				//& .title{
+				//	@include float-left;
+				//	@include bowlby;
+				//	@include adjust-font-size-to( 32px );
+				//	text-align: right;
+				//	width: 46%;
+				//	padding-right:2%;
+				//	margin-right:2%;
+				//	border-right: 6px solid lighten( $base-color, 70% );
+				//}
+				//& .caption{
+				//	width: 48%;
+				//	display: block;
+				//	@include float-left;
+				//	@include adjust-font-size-to( 22px, 1.5 );
+				//}
+			}
+		}
+	}
+
+	$ctrl-border-width: 1px;
+	$ctrl-margin: 4px;
+	
+	.controls{
+		@include inline-block;
+		@include margin-trailer(0.75);
+		margin-right:2em;
+		position:absolute;
+		bottom: 0.75em;
+		right:0;
+		z-index: 999999;
+		
+		& div{	
+			background: $base-bg-dark;
+			border: $ctrl-border-width solid darken( $base-bg-dark, 6% );
+			@include float-left;
+			display: block;
+			margin-left: $ctrl-margin;
+			width: 8px;
+			height: 8px;
+			@include border-radius( 1px );
+	
+			background: $base-bg-dark;
+			@include single-box-shadow( darken( $base-bg-dark, 6% ), 0, 0, 5px, 2px, true);
+	
+			
+			text-indent: -9999em;
+			
+			cursor: default;
+			
+			&:hover{
+				border: $ctrl-border-width solid darken( $base-bg-dark, 11% );
+				//color: darken( $base-bg-dark, 15% );
+				//background: darken( $base-bg-dark, 15% );
+				background: darken($base-bg-dark, 5%);
+				@include single-box-shadow( darken( $base-bg-dark, 11% ), 0, 0, 5px, 2px, true);
+				
+			}
+			&.active{
+				border: $ctrl-border-width solid darken($base-bg, 46%);
+				//color: darken($base-grey, 50%);
+				background: darken($base-bg, 40%);
+				@include single-box-shadow( darken( $base-bg, 46% ), 0, 0, 5px, 2px, true);
+			}
+		}
+	}
+}
+
+.lte8 #rotator .controls span{
+	height:22px !important;
+}
+
+/** End Rotator **/
+

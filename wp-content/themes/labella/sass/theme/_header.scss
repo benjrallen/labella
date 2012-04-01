@@ -1,0 +1,140 @@
+//
+// CSS for the specific theme header
+//
+
+
+.lte7 #header{	
+	& a#logo{		
+		& span{
+			&.title{
+			}
+			&.description{
+				& span{
+					
+					&.text{
+						& .dot{
+							&.left{
+							}
+							&.right{
+							}
+						}
+					}
+					
+					
+					&.bord{
+						top: 0;
+					}
+				}
+			}
+		}
+	}
+}
+#header{
+	border-top: 3px solid $base-button-color;
+	background: $base-color;
+	color: $base-bg;
+	
+	& .wrap{
+		position: relative;
+	}
+	
+	& .mask{
+		position: absolute;
+		height: 100%;
+		width: 100%;
+		background: $base-color;
+		z-index: 2;
+	}
+	
+	& a{
+		color: $base-bg;
+	}
+
+	& .call{
+		position: relative;
+		z-index: 4;
+		
+		@include adjust-font-size-to( 14px );
+		@include float-right;
+		@include padding-leader(0.25);
+		
+		& span, & a{	
+			@include inline-block;
+		}
+		
+		& a{
+			@include base-button( $base-button-color );
+			@include adjust-font-size-to( 15px, 1.25 );
+			font-weight: 600;
+			@include text-shadow( $base-color -1px 1px 1px );
+		}
+	}
+
+	& h1, & h2{
+		@include float-left;
+		position: relative;
+		z-index: 4;
+		@include adjust-font-size-to( 18px );
+	}
+
+	& a#logo{
+		//@include inline-block;
+		display: block;
+		@include adjust-font-size-to( 18px, 1.75 );
+		//@include padding-leader( 0.25 );
+		text-decoration: none;
+		font-weight: 400;
+		@include text-shadow( $base-color -1px 1px 1px );
+		
+		padding-left: 0.5em;
+		padding-right: 0.5em;
+		@include padding-leader( 0.045 );
+		@include padding-trailer( 0.045 );
+		margin-left: -0.5em;
+		
+		&:hover{
+			background: $base-button-hover;
+		}
+		&:active{
+			background: $base-button-active;
+		}
+		
+		& span{
+			
+			&.title{
+			}
+			&.description{
+				//text-indent: -9999em;
+				display: block;
+				position: absolute;
+				top: 0;
+				left: -9999em;
+				
+				& span{
+					
+					&.text{
+												
+						& .dot{
+
+							&.left{
+							}
+							&.right{
+							}
+						}
+					}
+					
+					
+					&.bord{
+					}
+				}
+			}
+		}
+		
+		&:hover{
+		}
+	}
+	
+}
+
+
+

@@ -1,0 +1,33 @@
+//
+// CSS for the specific theme body
+//
+
+#content{
+	@include margin-leader();
+	@include margin-trailer();
+	
+	& .wrap{
+		
+		&.outer{
+			position: relative;
+		}
+	}
+	
+	& .inner{
+		position: relative;
+		z-index: 1;
+	}
+	
+	& .mask{
+		position: absolute;
+		z-index: 0;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 100%;
+		@include base-shadow();
+		@include border-radius( $base-radius );
+		@include pie;
+		background: $base-bg;
+	}
+}

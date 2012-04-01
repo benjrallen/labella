@@ -1,0 +1,59 @@
+//
+// CSS for the specific theme sidebar
+//
+
+#sidebar{
+	
+	@include float-right;
+	//height: 100%;
+	position:absolute;
+	top:0;
+	right: -$bar-width - 17px;
+	
+	
+	width: $bar-width;
+	
+	& .sideInner{
+		background: $base-button-contrast;
+		margin: 0;
+
+		list-style: none outside;
+		
+		@include padding-leader(0.5);
+		@include padding-trailer(1);
+		padding-left: 1.25em;
+		padding-right: 1.25em;
+		
+		& .widget-container{
+			& .widget-title{
+				@include adjust-font-size-to( 22px );
+				text-transform: uppercase;
+				//text-decoration: underline;
+				border-bottom: 1px solid $nav-link-color;
+				text-align: center;
+				font-weight: normal;
+				color: $nav-link-color;
+				@include margin-trailer(0.5);
+			}
+			
+			& ul{
+				list-style: outside none;
+				margin-left: 0;
+				padding-left: 1em;
+			}
+			
+			& li{
+				@include adjust-font-size-to( 14px );
+				& a{
+					color: darken( $nav-link-color, 10% );
+
+					&:hover{
+						color: darken( $nav-link-color, 30% );
+					}
+				}
+			}
+		}
+		
+	}
+}
+

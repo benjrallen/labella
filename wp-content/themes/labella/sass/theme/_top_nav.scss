@@ -1,0 +1,55 @@
+
+
+nav#access{
+	cursor: default;
+	position: relative;
+	z-index: 1;
+
+	& .menu-primary-nav-container{
+		display: table;
+	}
+	
+	& .menu{
+		@include inline-block-list;
+		@include adjust-font-size-to(15px, 1);
+		text-transform: uppercase;
+		
+		& li{
+			@include single-transition( all, $base-transition-time, ease-in-out );
+								
+			&.menu-item-last{
+
+			}
+			
+			&:hover{
+				
+			}
+			
+			& a{
+				text-decoration:none;
+				display: block;
+				color: $base-bg;
+
+				padding-right: 1em;
+				padding-left: 1em;
+				@include padding-leader( 0.75 );
+				@include padding-trailer( 0.75 );
+
+				
+				&:hover{
+					background: darken( $base-button-color, 10% );
+				}
+			}
+			
+			&.current_page_item, &:active{
+				
+				& a{
+					background: $base-button-color;
+				}
+			}
+
+		}
+	}
+	
+
+}

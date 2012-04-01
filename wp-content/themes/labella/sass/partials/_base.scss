@@ -1,0 +1,161 @@
+// This file must be imported before loading html5-boilerplate
+
+$base-font-family: unquote('sans-serif');  // default font-family
+
+$base-font-size: 12px;  // default font-size for YUI fonts
+
+$base-line-height: 1.231;  // default line-height for YUI fonts
+
+$font-color: #444;
+
+$link-color: #607890;
+
+$link-hover-color: #036;
+
+$link-active-color: #607890;
+
+$link-visited-color: #607890;
+
+$selected-font-color: #fff;  // color for selected text
+
+$selected-background-color: lighten( #0761E2, 20% );  // bg-color for selected text
+
+
+// rgba plugin:  https://github.com/aaronrussell/compass-rgbapng
+@import "rgbapng";
+
+
+//typography
+@import "compass/typography";
+
+
+
+//utilities
+@import "compass/utilities";
+
+//and css3
+@import "compass/css3/pie";
+@import "compass/css3";
+
+
+
+//and ease plugins styles
+
+$base-pad: 10px;
+
+$base-color: #333;
+
+//#666 to start
+$nav-link-color: lighten( $base-color, 30%);
+
+$base-button-color: #457A7A;
+
+$base-button-hover: darken( $base-button-color, 10% );
+$base-button-active: lighten( $base-button-color, 10% );
+
+$base-button-light: #C23941;
+$base-button-contrast: #d9cdc5;
+
+$base-grey: #e3e3e3;
+
+$base-bg: #fefefe;
+
+
+$base-bg-light: #ECE2BC;
+$base-bg-dark: #e6ded2;
+
+
+$base-header-color: darken( $base-bg-dark, 45% );
+
+//$base-bg: #222;
+
+$base-hover-opacity: 0.7;
+
+$base-width: 960px;
+$bar-width: 0;
+
+$base-radius: 4px;
+
+
+//used for overflow of base width
+$triangle-width: 10px;
+
+
+$nav-shadow: #ccc;
+
+
+$base-transition-time: 0.1s;
+
+$box-bg: lighten($base-bg, 100%);
+
+$base-font-size: 12px;
+$base-line-height: 18px;
+
+
+$header-height: 94px;
+
+
+@mixin base-bg-alpha( $a: 0.65 ){
+	@include background( rgba( 0,0,0, $a ) );
+	-pie-background: rgba( 0,0,0, $a );
+}
+
+
+//selected color variables (boilerplate replace that pink)
+$selected-font-color: #fff;  // color for selected text;
+$selected-background-color: lighten( $base-button-color, 30% );  // bg-color for selected text
+
+
+//radial gradients in ie9 & opera
+$experimental-support-for-svg: true;
+
+
+@include establish-baseline(12px);
+
+
+
+//$pie-behavior: url("/PIE.htc");
+//$pie-behavior: url("/PIE.php");
+$pie-behavior: url("/PIE.php");
+//$pie-behavior: url("/~ben/upal/PIE.php"); //CHANGE THIS ON LAUNCH!!!
+$pie-base-class: pie;
+.pie{
+	@include pie-element(relative);
+}
+
+@mixin pie-png-fix{
+	-pie-png-fix: true;	
+}
+
+//to use:
+//#someEl{
+//	@include pie;
+//	@include background-image(linear-gradient(top center, white, $base-color));
+//	-pie-background: linear-gradient(top center, white, $base-color); //cause background images require that key in pie.
+//}
+
+
+@import "partials/_mixins";
+
+// Then we'll import the compass extension
+@import "html5-boilerplate";
+
+// Now, you can simply include everything
+// (except media) by uncommeting this line
+@include html5-boilerplate;
+
+// Or, you can pick and choose only the sections
+// you want by using the these includes
+//@include html5-boilerplate-reset;
+//@include html5-boilerplate-fonts;
+//@include html5-boilerplate-styles;
+//@include html5-boilerplate-helpers;
+
+// Or, you can import the "overrides" partial if
+// you want more control over individual mixins
+//@import "partials/overrides";
+
+// Finally, put your own styles in these partials
+// and add more as needed (i.e. forms, tables, nav)
+@import "partials/fonts";
+@import "partials/page";

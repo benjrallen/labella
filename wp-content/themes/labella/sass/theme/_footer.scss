@@ -1,0 +1,32 @@
+//
+// CSS for the specific theme footer
+//
+#footer{
+	
+	@include padding-trailer(1);
+
+	& span{
+		@include adjust-font-size-to( 11px );
+	}
+
+	& .foot-left{
+		@include float-left;
+		padding-left: 2 * $base-pad;
+	}
+	& .foot-right{
+		@include float-right;
+		padding-right: 2 * $base-pad;
+	}
+	
+	& a, & strong{
+		font-weight: 600;
+	}
+	& a{
+		text-decoration: none;
+		color: $base-color;
+		
+		&:hover{
+			color: darken( #badaff, 40%);
+		}
+	}
+}
