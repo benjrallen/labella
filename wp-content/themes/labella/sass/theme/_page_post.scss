@@ -33,6 +33,7 @@ article.hentry{
 	
 	& ul.list_body{
 		@include adjust-font-size-to(15px, 1.5);
+		@include margin-trailer( 0.5 );
 		margin-left: 0;
 		list-style-position: inside;
 	}
@@ -158,11 +159,66 @@ article.hentry{
 	}
 }
 
-.more-link{
-	@include float-right;
-	@include margin-leader(0.5);
-	@include margin-trailer;
+#theLoop{
+	
+	& article.hentry{
+		@include padding-leader(0);
+		@include padding-trailer(0);
+		
+		& .more-link{
+			@include float-right;
+			@include margin-leader(0.5);
+
+			&.base_button{
+				@include adjust-font-size-to( 10px );
+
+			}
+		}
+	}
+	
+	& h2.entry-title{
+		@include adjust-font-size-to(16px, 1.5);
+		
+		& a{
+			color: $base-color;
+			text-decoration: none;
+			
+			&:hover{
+				color: $link-hover-color;
+			}
+		}
+	}
+	
+	& p{
+		@include margin-leader(0);
+		@include margin-trailer(0.75);
+	}
+	
+	& .entry-meta{
+		@include margin-trailer(0.5);
+	}
+	
+	& .pic{
+		@include margin-trailer( 0.25 );
+		@include float-left;
+		
+		margin-right: 1em;
+		
+		background: $base-bg;
+		padding: 1px;
+		
+		
+		@include pie;
+		@include box-shadow( $base-color 0px 2px 6px -2px );
+		
+		& img{
+			display: block;
+		}
+	}
+	
+	
 }
+
 
 /** End Default Page Template **/
 

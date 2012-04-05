@@ -1,24 +1,20 @@
 <?php
 /**
- * The template for displaying all pages.
- *
- * This is the template that displays all pages by default.
- * Please note that this is the wordpress construct of pages
- * and that other 'pages' on your wordpress site will use a
- * different template.
+ * Template Name: Page - Contact
  *
  * @package WordPress
  * @subpackage Boilerplate
  * @since Boilerplate 1.0
  */
 
-get_header(); 
+get_header();
 
 //was a banner printed?  
 global $banner;
 global $prefix;
 global $post;
 ?>
+
 <?php if ( have_posts() ) : 
         $thisPage = $post->ID;
         $show_gallery = get_post_meta( $thisPage, $prefix.'show_gallery', true );
@@ -59,13 +55,6 @@ global $post;
           echo make_list_header( get_post_meta( $thisPage, $prefix.'list_header', true ) );
           echo make_list_body( get_post_meta( $thisPage, $prefix.'list_elements', true ) );
 
-          
-          if( $call_button = get_post_meta( $thisPage, $prefix.'call_button', true ) ){
-
-            echo make_call_header( get_post_meta( $thisPage, $prefix.'call_header', true ) );
-
-            echo make_call_button( get_post_meta( $thisPage, $prefix.'call_button_text', true ) );
-          }
         ?>
 
       </div>
@@ -77,6 +66,17 @@ global $post;
       <div class="in">
 
           <?php
+            echo get_location_list();
+
+          
+            if( $call_button = get_post_meta( $thisPage, $prefix.'call_button', true ) ){
+
+              echo make_call_header( get_post_meta( $thisPage, $prefix.'call_header', true ) );
+
+              echo make_call_button( get_post_meta( $thisPage, $prefix.'call_button_text', true ) );
+            }
+
+          
             // 0 is the option for none
             if ( $show_loop ){
               

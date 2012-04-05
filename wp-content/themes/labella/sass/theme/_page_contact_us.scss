@@ -5,5 +5,71 @@
 
 /** Contact Us Page Template **/
 
+.locationList{
+	list-style: outside none;
+	margin-left: 0;
+	//background: #bad;
+	@include inline-block-list;
+	@include padding-trailer;
 
+}
+
+.locationItem{
+	//text-align: center;
+	cursor: pointer;
+	cursor: hand;
+	//@include inline-block;
+	padding-left: 1em;
+	padding-right: 1em;
+	vertical-align: top !important;
+	
+	//@include pie;
+	//@include border-radius( 4 * $base-radius );
+	
+	&:hover{
+		background: lighten(desaturate( $base-button-color, 10% ), 45%);
+		border: 1px solid $base-button-color;
+	}
+}
+
+.locationItem, .mapInfoDom{
+	@include padding-leader(0.25);
+	@include padding-trailer(0.5);
+	border: 1px solid transparent;
+	@include adjust-font-size-to( 14px );
+	
+	
+	& a, & span{
+		color: $base-color;
+		display: block;
+		text-decoration: none;
+		&.longname{
+			@include adjust-font-size-to( 16px );
+			font-weight: 600;
+		}
+		&.locationPhone{
+			@include margin-leader(0.5);
+		}
+		&.locationFax{
+			@include margin-leader(0.5);
+		}
+		& p{
+			@include margin-leader(0);
+		}
+		& strong{
+			font-weight: 600;
+			margin-right: 0.25em;
+		}
+		&.directionsLink{
+			@include margin-leader(0.5);
+			//font-weight: 600;
+			font-style: italic;
+			color: $link-hover-color;
+
+			&:hover{
+				color: darken( $link-hover-color, 10% );
+			}
+		}
+	}
+}
 /** End Contact Us Page Template **/

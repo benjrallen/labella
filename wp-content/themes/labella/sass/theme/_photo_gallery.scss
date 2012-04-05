@@ -7,28 +7,49 @@
 	display: none;
 }
 
+$gal-bg: #999;
+$gal-border: #ccc;
+$gal-w: 598px;
+$gal-h: 460px;
+
 #gallery-frame{
-	width: 51%;
-	@include float-left;
 	display: block;
 	
+	background: $gal-bg;
+	
+	width: $gal-w;
+	height: $gal-h;
+	
+	position: relative;
+	
+	border: 1px solid $gal-border;
+	border-bottom: none;
+	
 	& .frame-tip{
-		//background: $base-color;
-		padding-left: 2%;
 		@include adjust-font-size-to( 10px );
-		color: lighten( $base-color, 25% );
-		//@include opacity( 0.5 );
+		color: $base-bg;
+		
+		position: absolute;
+		padding-left: 0.5em;
+		padding-right: 0.5em;
+		top: 0;
+		left: 0;
+		@include rgba-background-inline( rgba(51,51,51,0.4) );
+		@include text-shadow( $base-color -1px 1px 1px ); 
 	}
 	
 	& img{
 		display: block;
-		width: 100%;
+		position: absolute;
+		max-width: 100%;
+		max-height: 100%;
+		width: auto;
 		height: auto;
 		cursor: pointer;
 		cursor: hand;
 
-		max-width: 96%;
-		padding: 2%;
+		margin-left: auto;
+		margin-right: auto;
 		background: $base-bg;
 		
 		@include pie;
@@ -36,37 +57,31 @@
 	}
 }
 
+$thumbH: 100px;
+$thumbW: 100px;
+$numThumbs: 5;
+$ctrlWidth: floor( ( $gal-w - ( $numThumbs * $thumbW ) ) / 2 );				
+$icoW: 20px;
+$icoH: 60px;
+
 /** Ease Photo Gallery **/
 .ease-photo-gallery{
-	//text-align:center;
-	@include float-right;
 	display: block;
-	width: 46%;
+	border: 1px solid $gal-border;
+	width: $gal-w;
+	height: $thumbH;
+	position: relative;
 	
 	& .ease-img-link{
-		//margin:8px 16px;
-		//@include margin-leader( 0.25 );
-		@include margin-trailer( 0.5 );
-		margin-left: 0.25em;
-		margin-right: 0.25em;
 		@include inline-block;
 		vertical-align: middle;
-		//background: $base-bg url('../images/loading.gif') no-repeat center center;
-		background: $base-bg;
-		padding: 2px;
 		
-		//@include pie;
-		//@include border-radius( 3px );
-		//@include single-box-shadow( darken( $base-bg, 20% ), 0, 0, 4px );
+		//position: relative;
+		@include opacity( 0.75 );
 		
-		min-width: 40px;
-		//min-height: 30px;
-		
-		max-width: 60px;
-		
-		
-		@include pie;
-		@include box-shadow( $base-color 0px 3px 6px -1px );
+		&:hover, &.active{
+			@include opacity( 1 );
+		}
 		
 		& img{
 			max-width: 100%;
@@ -77,31 +92,84 @@
 		}
 	}
 	
+	& #gallery-page-container{
+		background: lighten( $gal-bg, 20% );
+		left: $ctrlWidth;
+		position: absolute;
+		width: $gal-w - $ctrlWidth * 2;
+		z-index: 2;
+	}
+	
 	& .gallery-page-controls{
+		
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		height: 100%;
+		width: 100%;
+		z-index: 1;
+		
 		& .pageNext, & .pagePrev{
 			display: inline-block;
-			//background: $base-header-color;
-			@include adjust-font-size-to( 10px );
-			padding-left: 0.5em;
-			padding-right: 0.5em;
+			
+			width: $ctrlWidth;
+			height: 100%;
+			
+			background: $base-bg;
+			
 			cursor: pointer;
 			cursor: hand;
-
-			@include theme-hard-grad-button;
-			@include theme-hard-grad-button-hover;
-
 			
-			//&:hover, &:active{
-			//	@include opacity( $base-hover-opacity );
-			//}
+			position: relative;
+			
+			&:hover{
+				background: darken( $base-bg, 10% );
+				
+				& span{
+					&.icon{
+						@include opacity( 1 );
+					}
+				}
+			}
+			
+			& span{
+				&.text{
+					display: none;
+				}
+				&.icon{
+					display: block;
+					position: absolute;
+					width: $icoW;
+					height: $icoH;
+					top: floor( ($thumbH - $icoH) / 2);
+					left: floor( ($ctrlWidth - $icoW) / 2);
+					@include main-sprite;
+					
+					@include opacity( 0.85 );
+					
+				}
+			}
+
 		}
 		& .pageNext{
 			float: right;
-			margin-right: 1em;
+			
+			& span{
+				&.icon{
+					background-position: -50px 0;
+					//left: floor( ($ctrlWidth - $icoW) / 2 + 2);
+				}
+			}
 		}
 		& .pagePrev{
 			float: left;
-			margin-left: 1em;
+			
+			& span{
+				&.icon{
+					background-position: 0 0;
+					//left: floor( ($ctrlWidth - $icoW) / 2 - 2);
+				}
+			}
 		}
 		& .pageCounter{
 			//@include padding-leader(0.5);
@@ -186,11 +254,12 @@
 	& #pDesc, #pTitle{
 		position: absolute !important;
 		left: 0;
-		background: rgba( 0,0,0, 0.5 );
+		//background: rgba( 0,0,0, 0.5 );
+		@include rgba-background-inline( rgba( 0,0,0, 0.5 ) );
 		color: #fff;
-		@include pie;
+		//@include pie;
 		
-		//@include adjust-font-size-to( 14px );
+		@include adjust-font-size-to( 10px );
 		@include padding-leader( 0.25 );
 		@include padding-trailer( 0.25 );
 		padding-left: 0.5em;

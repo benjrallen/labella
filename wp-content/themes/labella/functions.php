@@ -256,7 +256,7 @@ add_filter( 'excerpt_length', 'boilerplate_excerpt_length' );
  * @return string "Continue Reading" link
  */
 function boilerplate_continue_reading_link() {
-	return ' <a href="'. get_permalink() . '">' . __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'boilerplate' ) . '</a>';
+	return ' <a href="'. get_permalink() . '" class="base_button more-link">' . __( 'Read More', 'boilerplate' ) . '</a>';
 }
 
 /**
@@ -454,17 +454,12 @@ if ( ! function_exists( 'boilerplate_posted_on' ) ) :
  * @since Twenty Ten 1.0
  */
 function boilerplate_posted_on() {
-	printf( __( '<span class="%1$s">Posted on</span> %2$s <span class="meta-sep">by</span> %3$s', 'boilerplate' ),
+	printf( __( '<span class="%1$s">Posted on</span> %2$s', 'boilerplate' ),
 		'meta-prep meta-prep-author',
 		sprintf( '<a href="%1$s" title="%2$s" rel="bookmark"><span class="entry-date">%3$s</span></a>',
 			get_permalink(),
 			esc_attr( get_the_time() ),
 			get_the_date()
-		),
-		sprintf( '<span class="author vcard"><a class="url fn n" href="%1$s" title="%2$s">%3$s</a></span>',
-			get_author_posts_url( get_the_author_meta( 'ID' ) ),
-			sprintf( esc_attr__( 'View all posts by %s', 'boilerplate' ), get_the_author() ),
-			get_the_author()
 		)
 	);
 }
@@ -551,23 +546,22 @@ if ( function_exists( 'add_theme_support' ) ) {
 }
 
 
-/** BEGIN GuRu Theme Specific Functions **/
+/** BEGIN Ease Theme Specific Functions **/
 
-/*
 function flag_content_more_link($link) { 
-	$link = '<a href="'.get_permalink().'" class="orange flag page-read-more" title="Read More">Read More</a>';
+	$link = '<a href="'.get_permalink().'" class="base_button more-link" title="Read More">Read More</a>';
 	return $link;
 }
 add_filter('the_content_more_link', 'flag_content_more_link');
-*/
 
 
 add_post_type_support('page', 'excerpt');
 
 //add image sizes
-add_image_size( 'gallery-big', 558, 558, false );
+//add_image_size( 'gallery-big', 558, 558, false );
 add_image_size( 'gallery-thumb', 100, 100, true );
-add_image_size( 'project-thumb', 180, 120, true );
+add_image_size( 'loop-thumb', 100, 100, false );
+//add_image_size( 'project-thumb', 180, 120, true );
 add_image_size( 'banner', 922, 359, true );
 add_image_size( 'fp-feature-page', 239, 153, true );
 
@@ -627,7 +621,7 @@ if( class_exists( 'NewPostType' )){
 		'post_type' => $prefix.'project',
 		'post_type_name' => 'Projects',
 		'args' => array(
-			'rewrite' => array( 'slug' => 'projects' ),
+			'rewrite' => array( 'slug' => $prefix.'projects' ),
 			'supports' => array( 'title', 'editor', 'thumbnail', 'page-attributes' ),
 			'public' => true,
 			'has_archive' => false
@@ -651,7 +645,7 @@ if( class_exists( 'NewPostType' )){
 		'post_type' => $prefix.'development',
 		'post_type_name' => 'Developments',
 		'args' => array(
-			'rewrite' => array( 'slug' => 'developments' ),
+			'rewrite' => array( 'slug' => $prefix.'developments' ),
 			'supports' => array( 'title', 'editor', 'thumbnail', 'page-attributes' ),
 			'public' => true,
 			'has_archive' => false
@@ -982,7 +976,19 @@ function make_banner_images( $menu_name = false ){
   if( !$menu_name ){
     global $post;
     
-    if( has_post_thumbnail( $post->ID ) ){
+    if ( is_page_template('page-contact.php') ) {
+      //print out a map block
+      $block .= '<section id="rotator">';
+      	$block .= '<div class="slides">';
+
+          $block .= '<div class="slide" id="gMap">';
+            //$block .= '<div id="gMap"></div>';
+          $block .= '</div>';
+      
+      	$block .= '</div>'; //end .slides
+      $block .= '</section>'; //end #rotator
+
+    } else if( has_post_thumbnail( $post->ID ) ){
       $banner = true;
       $block .= '<section id="rotator">';
       	$block .= '<div class="slides">';
@@ -1108,6 +1114,17 @@ function make_list_body( $textarea ){
 
 function get_location_posts(){
   global $prefix;
+
+	if( !isset($ease_locations) ){
+		$ease_locations = 	get_posts(array(
+								'numberposts' => -1,
+								'post_type' => $prefix.'location',
+								'order' => 'ASC',
+								//'orderby' => 'title'
+								'orderby' => 'menu_order'
+							));
+	}
+
   
   $locations = get_posts(array(
     'posts_per_page' => -1,
@@ -1116,7 +1133,7 @@ function get_location_posts(){
     'orderby' => 'menu_order'
   ));
   
-  foreach( $locations as $location ){
+  foreach( $ease_locations as $location ){
     $location->location_meta = array(
       'address' => get_post_meta( $location->ID, $prefix.'location_address', true ),
       'phone' => get_post_meta( $location->ID, $prefix.'location_phone', true ), 
@@ -1125,7 +1142,7 @@ function get_location_posts(){
     
   }
     
-  return $locations;
+  return $ease_locations;
 }
 
 function make_post_gallery(){
@@ -1195,8 +1212,130 @@ function make_post_gallery(){
 
 function show_post_loop($post_type){
   
-  return $post_type;
+  if( !empty($post_type) ){
+
+    query_posts(array(
+      'paged' => get_query_var('paged'),
+      'post_type' => $post_type,
+      'orderby' => 'menu_order date',
+      'order' => 'ASC'
+    ));  
+
+    echo '<div id="theLoop">';
+      get_template_part( 'loop', $post_type );
+    echo '</div>';
+
+  }
+  
+  return;
 }
+
+//WP Pages
+function easePagination($pages = '', $range = 3){ 
+  $showitems = ($range * 2)+1;
+  global $paged; 
+  
+  if(empty($paged)) 
+    $paged = 1;
+  
+  if($pages == '') {
+    global $wp_query;
+    $pages = $wp_query->max_num_pages; 
+    if(!$pages){ 
+      $pages = 1; 
+    } 
+  }
+  if(1 != $pages){ 
+    echo "<div class=\"pagination\"><span class=\"text\">Page ".$paged." of ".$pages."</span>";
+    
+    if($paged > 2 && $paged > $range+1 && $showitems < $pages) 
+      echo "<a href='".get_pagenum_link(1)."' class=\"first\">&laquo; First</a>";
+ 
+    if($paged > 1 && $showitems < $pages) 
+      echo "<a href='".get_pagenum_link($paged - 1)."' class=\"prev\">&lsaquo; Previous</a>";
+ 
+    for ($i=1; $i <= $pages; $i++){ 
+      if (1 != $pages &&( !($i >= $paged+$range+1 || $i <= $paged-$range-1) || $pages <= $showitems )){ 
+        echo ($paged == $i) ? 
+          "<span class=\"current\">".$i."</span>" :
+          "<a href='".get_pagenum_link($i)."' class=\"inactive\">".$i."</a>";
+      } 
+    } 
+    if ($paged < $pages && $showitems < $pages) 
+      echo "<a href=\"".get_pagenum_link($paged + 1)."\" class=\"next\">Next &rsaquo;</a>";
+ 
+    if ($paged < $pages-1 &&  $paged+$range-1 < $pages && $showitems < $pages) 
+      echo "<a href='".get_pagenum_link($pages)."' class=\"last\">Last &raquo;</a>";
+    
+    echo "</div>"; 
+  }
+  //always clearfix
+  echo '<div class="clearfix"></div>';
+}
+
+
+
+
+//used throughout template to list the location post type with the additional meta info
+//also associates json data with the block in order to make it work with GuruMap jquery plugin - BA
+function get_location_list(  ){
+
+	global $ease_locations;
+	global $prefix;
+
+	$html = '<ul class="locationList">';
+	
+	if( !isset($ease_locations) ){
+		$ease_locations = 	get_location_posts();
+	}
+
+	$keys = array(
+		$prefix.'location_address',
+		$prefix.'location_phone',
+		$prefix.'location_fax'
+	);
+	
+	foreach ( $ease_locations as $location ) {
+		$meta = get_post_custom( $location->ID );
+		
+		//set location->meta array
+		$location->meta = array();
+		
+		//iterate through $keys
+		foreach( $keys as $key ){
+			if( isset($meta[$key]) ) {
+				$location->meta[$key] = $meta[$key][0];
+			}
+		}
+		unset( $key );
+		unset( $meta );		
+		
+		$html .= '<li class="locationItem" location-data=\''.json_encode( $location->meta ).'\'>';
+		
+		$html .= '<a class="locationLink longname">'.$location->post_title.'</a>';
+
+		if ( isset($location->meta[$prefix.'location_address']) )
+			$html .= '<a class="locationAddress">'.apply_filters( 'the_content', $location->meta[$prefix.'location_address'] ).'</a>';	
+
+		if ( isset($location->meta[$prefix.'location_phone']) )
+			$html .= '<a href="tel:'.$location->meta[$prefix.'location_phone'].'" class="locationPhone"><strong>Phone: </strong>'.apply_filters( 'the_title', $location->meta[$prefix.'location_phone']).'</a>';
+
+		if ( isset($location->meta[$prefix.'location_fax']) )
+			$html .= '<span class="locationFax"><p><strong>Fax: </strong>'.$location->meta[$prefix.'location_fax'].'</p></span>';
+		
+		$html .= '</li>';	
+		
+	}
+	
+
+	$html .= 	'<div class="clearfix"></div>';	
+	$html .= '</ul>';
+
+	//$html .= '<div id="locationJSON">'.json_encode( $locations ).'</div>';
+	
+	return $html;
+}
+
 
 /** END Ease Theme Specific Functions **/
 

@@ -10,7 +10,7 @@ $font-color: #444;
 
 $link-color: #607890;
 
-$link-hover-color: #036;
+$link-hover-color: darken( #badaff, 40% );
 
 $link-active-color: #607890;
 
@@ -48,7 +48,9 @@ $base-color: #333;
 //#666 to start
 $nav-link-color: lighten( $base-color, 30%);
 
-$base-button-color: #457A7A;
+//$base-button-color: #457A7A;
+//$base-button-color: darken( saturate( #457AaA, 15% ), 5% );
+$base-button-color: darken( desaturate( #badaff, 30% ), 45% );
 
 $base-button-hover: darken( $base-button-color, 10% );
 $base-button-active: lighten( $base-button-color, 10% );

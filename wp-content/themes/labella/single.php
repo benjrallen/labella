@@ -1,62 +1,100 @@
 <?php
 /**
- * The Template for displaying all single posts.
+ * The template for displaying all pages.
+ *
+ * This is the template that displays all pages by default.
+ * Please note that this is the wordpress construct of pages
+ * and that other 'pages' on your wordpress site will use a
+ * different template.
  *
  * @package WordPress
  * @subpackage Boilerplate
  * @since Boilerplate 1.0
  */
 
-get_header(); ?>
-<?php if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
+get_header(); 
 
+//was a banner printed?  
+global $banner;
+global $prefix;
+global $post;
+?>
+<?php if ( have_posts() ) : 
+        $thisPage = $post->ID;
+        $show_gallery = get_post_meta( $thisPage, $prefix.'show_gallery', true );
+        $show_loop = get_post_meta( $thisPage, $prefix.'show_loop', true );
+                
+        if( $show_loop == 'none' )
+          $show_loop = false;
+        
+        $col_class = ( $show_gallery || $show_loop ? 'third' : 'half' );
+?>
+	
 	<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+		<?php  while ( have_posts() ) : the_post(); ?>
+    <div class="<?php echo $col_class; ?> first">
+      <div class="in">
+        	  
+    	  <?php if ( !$banner ) { ?>	  
+    		<header class="parent-title">
+    				<h1 class="entry-title"><?php the_title(); ?></h1>
+    		</header>
+    		<?php } ?>
 
-		<?php
-			if( has_post_thumbnail() ){														
-				$thumbID = get_post_thumbnail_id($post->ID);
-				$thumbTitle = get_the_title( $thumbID );
-				$thumbSrc = wp_get_attachment_image_src( $thumbID, 'banner' );
-				$banner = array(
-					'url' => $thumbSrc[0],
-					'width' => $thumbSrc[1],
-					'height' => $thumbSrc[2]
+        <div class="entry-content">
+          <?php
+          
+            if( $subtitle = get_post_meta( $thisPage, $prefix.'page_subtitle', true ) )
+              echo '<h2 class="subtitle">'.$subtitle.'</h2>';
 
-				);
+            the_content();
 
-				echo '<div class="pageImg">'.
-		          '<div class="slides">'.
-	              '<div class="slide">'.
-					        '<img src="'.$banner['url'].'" width="'.$banner['width'].'" height="'.$banner['height'].'" />'.
-				        '</div>'.
-				      '</div>'.
-				     '</div>';
-			}
-		?>
+          ?>
 
-		<header class="parent-title">
-				<h1 class="entry-title"><?php the_title(); ?></h1>
-		</header>
+          <div class="clearfix"></div>
+        </div>
 
-		<div class="entry-content">
-			<div class="entry-teaser">
-				<?php 
-				  rochelle_posted_on();
-					the_content('');
-				?>
-			</div>
+        <?php
 
-			<div class="clearfix"></div>
-		</div><!-- .entry-content -->
+          echo make_list_header( get_post_meta( $thisPage, $prefix.'list_header', true ) );
+          echo make_list_body( get_post_meta( $thisPage, $prefix.'list_elements', true ) );
+
+          if( $call_button = get_post_meta( $thisPage, $prefix.'call_button', true ) ){
+
+            echo make_call_header( get_post_meta( $thisPage, $prefix.'call_header', true ) );
+
+            echo make_call_button( get_post_meta( $thisPage, $prefix.'call_button_text', true ) );
+          }
+        ?>
+
+      </div>
+    </div>
+
+  <?php endwhile; ?>
+
+    <div class="<?php echo $col_class; ?> last">
+      <div class="in">
+
+          <?php
+            // 0 is the option for none
+            if ( $show_loop ){
+              
+              echo show_post_loop( $show_loop );
+              
+            } else if( $show_gallery ){
+
+              echo make_post_gallery();
+
+            } else {
+                            
+            }
+          ?>
+
+
+      </div>
+    </div>
 	</article><!-- #post-## -->
-
-	<nav id="nav-below" class="navigation">
-		<div class="older"><?php previous_post_link( '%link', '' . _x( '&larr;', 'Previous post link', 'boilerplate' ) . ' %title' ); ?></div>
-		<div class="newer"><?php next_post_link( '%link', '%title ' . _x( '&rarr;', 'Next post link', 'boilerplate' ) . '' ); ?></div>
-		<div class="clearfix"></div>
-	</nav><!-- #nav-above -->
-
-<?php endwhile; ?>
-<?php get_sidebar(); ?>
-<div class="clearfix"</div>
+<?php endif; ?>
+<?php //get_sidebar(); ?>
+<div class="clearfix"></div>
 <?php get_footer(); ?>

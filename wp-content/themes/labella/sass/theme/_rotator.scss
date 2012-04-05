@@ -111,6 +111,13 @@ $bW: 1px; //border width
 				//left: 5px;
 			}
 			
+			&#gMap{
+				& img{
+					behavior: none;
+					@include box-shadow(none);
+				}
+			}
+			
 			& .description{
 				display: none;
 				

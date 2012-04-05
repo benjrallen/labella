@@ -27,75 +27,42 @@
 				paginate: 5,
 				useFrame: true,
 				dataEl: '#ease-gallery-data-el',
-				showDescriptions: false,
-				showTitles: false
+				showDescriptions: true,
+				showTitles: true
 			});
+		
+		contactPage();
 		
 	});	
 
-/*
-	//controls the absolute/fixed positioning of the nav sidebar
-	function scrollingNav(){
-		if ( !$('#sidebar').length )
-			return false;
-		
-		var nav = $('#sidebar'),
-			content = $('#content'),
-			whole = $('#whole'),
-			wholeWidth = $('#whole').outerWidth(),
-			bodyTop = $('body').position().top * -1, //body border-top-width, doesn't change
-			navWidth = nav.width(), //doesn't change
-			navPos = {	//is the defined css position (top and left in the stylesheet) as an integer
-				left: parseInt( nav.css('right').replace('px','') ),
-				top: parseInt( nav.css('top').replace('px','') )
-			},
-			navLeft,
-			contTop,
-			navIsFixed = false,
-			navIsHidden;
-		
-		//used to calculate the variables
-		var calculateVariables = function(){
-			navLeft = nav.offset().left;
-			contTop = content.offset().top + bodyTop;
-			navIsHidden = nav.is(':hidden');
+	function contactPage(){
+		if( $('#gMap').length ){
+			new EaseMap({
+				streetViewControl: true,
+				fitMarkers: false,
+				zoom: 12,
+				//centerLat: 36.153077,
+				//centerLng: -95.989392,
+				centerLat: 36.126992,
+				centerLng: -95.947181,
+				mapHeight: 406,
+				contId: 'gMap',
+				locationKey: 'la_bella_location_address',
+				markerScale: 0.4,
+				markerImageKey: 'featured_custom_marker',
+				blocksAreClickable: true,
+				scrollToMapOnClick: true,
+				scrollSpeed: 450,
+				directionsLink: true
+			});
 			
-			if ( navIsFixed ){
-				navLeft = content.offset().left + wholeWidth + navPos.left;
-				nav.css({ left: navLeft });
-			}
-			//trigger scroll to update position
-			$(window).trigger('scroll');
-		};
-		
-		//calculate them
-		calculateVariables();
-
-		//recalculate when window size changes (Ã  cause du designe rÃ©ponsive)
-		$(window).resize( calculateVariables );
-		
-		$(window).scroll(function(e){
-			//only do this stuff if the navigation is actually showing
-			if ( !navIsHidden ){
-				var sTop = $(this).scrollTop();
-				
-				if ( sTop > contTop ) {
-					if ( !navIsFixed ) {
-						nav.css({ position: 'fixed', left: navLeft, right: 'auto' });
-						navIsFixed = true;
-					}
-					
-				} else if ( navIsFixed ) {
-					nav.css({ position: 'absolute', right: navPos.left, left: 'auto' });
-					navIsFixed = false;
-				}
-			}
-		});
-		
-		//trigger it at beginning to update if page loads in middle
-		$(window).trigger('scroll');
+			//block the location links from doing anything.
+			//console.log( $('.entry-content .locationList a') );
+			//$('.entry-content .locCont a').live('click', function(e){
+			//	e.preventDefault();
+			//});
+		}	
 	}
-*/	
 	
 	function autoMenu(){
 		if ( $('nav#access').length ) {
