@@ -58,6 +58,7 @@ try{
 		me.binaryControls = null;
 		
 		me.RUNNING = false;
+		me.EXISTS - false;
 		
 		me.other = false;
 		
@@ -67,6 +68,8 @@ try{
 				me.container = $('#'+me.contID);
 				me.slider = me.container.find('.'+me.sliderClass);
 				me.slides = me.slider.children(); 
+				
+				me.EXISTS = true;
 				
 				if( me.slides.length < 2 )
 					return false;
@@ -87,7 +90,7 @@ try{
 				$(window).resize(me.onResize);
 				
 				//'trigger it'
-				me.onResize();
+				//me.onResize();
 				
 				me.RUNNING = true;
 			}
@@ -386,6 +389,7 @@ try{
 				useFrame: false,
 				frameHeight: 460,
 				frameWidth: 598,
+				frameResponds: false,
 				transTime: 100,
 				dataAttr: 'ease_full',
 				dataEl: false,  //use a data element with pagination to override the default image link with a scripty pagination
@@ -419,32 +423,40 @@ try{
 		me.frameCont = null;
 		me.frame = null;
 		
+		me.startFrameHeight = me.frameHeight;
+		me.startFrameWidth = me.frameWidth;
+		
+		var IS_RESPONSIVE = false;
+		
 		me.init = function(){
 						
-			if ( $('.'+me.galleryContCls).length ){
-				me.galleryExists = true;
+			if ( !$('.'+me.galleryContCls).length )
+				return false;
 				
-				me.gallery = $('.'+me.galleryContCls);
+			me.galleryExists = true;
+			
+			me.gallery = $('.'+me.galleryContCls);
 
-				//check if this is using the a paginated setup
-				if ( me.paginate && me.dataEl )
-					return me.initPaginated();
+			//check if this is using the a paginated setup
+			if ( me.paginate && me.dataEl )
+				return me.initPaginated();
 
-				me.links = me.gallery.find('.'+me.linkCls);
-				
-				
-				me.links.each(function(i){
-					var data = $(this).attr( me.dataAttr );
-						//json = $.parseJSON( data );
-						
-					//me.allData[i] = json;
-					me.allData[i] = $.parseJSON( data );
-				});
-				
-				me.links.click( me.linkClick );
-				
-				$('body').click( me.closePop );
-			}
+			me.links = me.gallery.find('.'+me.linkCls);
+			
+			
+			me.links.each(function(i){
+				var data = $(this).attr( me.dataAttr );
+					//json = $.parseJSON( data );
+					
+				//me.allData[i] = json;
+				me.allData[i] = $.parseJSON( data );
+			});
+			
+			me.links.click( me.linkClick );
+			
+			$('body').click( me.closePop );
+
+			$(window).resize(me.onResize);
 						
 		};
 
@@ -473,6 +485,7 @@ try{
 			me.buildPage();
 
 			$('body').click( me.closePop );
+			$(window).resize(me.onResize);
 			
 		};
 		
@@ -560,8 +573,8 @@ try{
 		me.makePaginateControls = function(){
 			
 			var controls = {
-				nextBttn : me.makeControl('Next Page').addClass('pageNext').click(me.nextPage),
-				prevBttn : me.makeControl('Prev Page').addClass('pagePrev').click(me.prevPage),
+				nextBttn : me.makeControl('Next').addClass('pageNext').click(me.nextPage),
+				prevBttn : me.makeControl('Back').addClass('pagePrev').click(me.prevPage),
 				counter: $('<div />').addClass('pageCounter'),
 				clear: $('<div />').addClass('clearfix')
 			};
@@ -735,7 +748,7 @@ try{
 			if ( left < 0 ) left = 0;
 			
 			me.popup.css({
-				top: 40 + sT,
+				top: 20 + sT,
 				left: left
 			}).show();
 		};
@@ -761,7 +774,7 @@ try{
 			var	oldImg = me.popup.children('img, #pDesc, #pTitle').remove(),
 				i = me.currentI,
 				data = me.allData[i],
-				maxHeight = $(window).height() - 80,
+				maxHeight = $(window).height() - 40,
 				maxWidth = $(window).width() - 40,
 				imgHeight = data.height,
 				imgWidth = data.width;
@@ -829,14 +842,33 @@ try{
 			me.switchPop();
 		};
 		
-
-
-		me.init();
-		
-		$(window).resize(function(){
+		me.onResize = function(e){
+			
 			if( me.popup && !me.popup.is(':hidden') )
 				me.switchPop();
-		});
+
+				//console.log( me.frameResponds );
+
+			if( me.frameResponds && me.useFrame && Modernizr.mq('only all and (max-width: '+me.frameResponds+'px)') ){
+
+				me.frameWidth = me.frameCont.width();
+				me.frameHeight = me.crossMultiply( me.startFrameWidth, me.startFrameHeight, me.frameWidth );
+				me.frameCont.height( me.frameHeight );
+				me.positionFramePhoto();
+				IS_RESPONSIVE = true;
+
+			} else if (IS_RESPONSIVE) {
+
+				me.frameCont.height( me.startFrameHeight );
+				me.frameHeight = me.startFrameHeight;
+				me.frameWidth = me.startFrameWidth;
+				IS_RESPONSIVE = false;
+
+			}
+		};
+		
+		me.init();
+		
 		
 		return ( me.galleryExists ? me : false );
 	}

@@ -3,7 +3,13 @@
 	//transitionTime
 	var transTime = 250,
 		//maxWidth = 960;
-		maxWidth = 0;
+		respondWidth = 620,
+		isResponsive = false,
+		rotator = null,
+		slideSize = {
+			width:  922,
+			height: 359
+		};
 		
 	$(document).ready(function(){
 		
@@ -15,17 +21,20 @@
 		
 		//scrollingNav();
 		
-        var fpRotate = new EaseRotator({
+        rotator = new EaseRotator({
              transitionTime: 750,
              timeoutTime: 7000,
              showControls: true,
              autoRotate: true
-         });
+        });
 		
+		
+		//console.log( rotator );
 		
 		var leGallerie = new EasePhotoGallery({
 				paginate: 5,
 				useFrame: true,
+				frameResponds: respondWidth,
 				dataEl: '#ease-gallery-data-el',
 				showDescriptions: true,
 				showTitles: true
@@ -33,7 +42,42 @@
 		
 		contactPage();
 		
+		$(window).resize(responsiveRotator);
+		
+		$(window).trigger('resize');
+		
 	});	
+
+	
+	/*
+	slideSize = {
+		width:  922,
+		height: 359
+	};
+	*/
+	
+	function responsiveRotator(e){
+		if( rotator.EXISTS && Modernizr.mq('only all and (max-width: '+respondWidth+'px)') ){
+			//console.log('rotator responding', rotator);
+			
+			//var newHeight = Math.floor( $(window).width() * slideSize.height / slideSize.width );
+			
+			rotator.container.height( Math.floor( $(window).width() * slideSize.height / slideSize.width ) );
+			//rotator.slider.height(newHeight);
+			
+			//track semiglobal isResponsive variable
+			if( !isResponsive )
+				isResponsive = true;
+		} else if ( isResponsive ) {
+			//DO SOMETHING...
+			rotator.container.removeAttr('style');
+			//rotator.slider.removeAttr('style');
+			//set the global back to false
+			isResponsive = false;
+		}
+		
+	};
+
 
 	function contactPage(){
 		if( $('#gMap').length ){
